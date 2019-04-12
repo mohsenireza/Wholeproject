@@ -3,11 +3,11 @@ const Schema = mongoose.Schema;
 
 
 const userSchema = new Schema({
-    first_name: {
+    firstName: {
         type: String,
         required: true
     },
-    last_name: {
+    lastName: {
         type: String,
         required: true
     },
@@ -25,5 +25,19 @@ const userSchema = new Schema({
     }
 });
 
+userSchema.path('firstName').validate(firstName => {
+    const firstNameRegex = /^\w((\w|\s){2,10})$/;
+    return firstNameRegex.test(firstName);
+}, 'user.firstName is not valid');
+
+userSchema.path('lastName').validate(lastName => {
+    const lastNameRegex = /^\w((\w|\s){2,10})$/;
+    return lastNameRegex.test(lastName);
+}, 'user.lastName is not valid');
+
+userSchema.path('username').validate(username => {
+    const usernameRegex = /^\w{5,10}$/;
+    return usernameRegex.test(username);
+}, 'user.username is not valid');
 
 module.exports = mongoose.model('users', userSchema);

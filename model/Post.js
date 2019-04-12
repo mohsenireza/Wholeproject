@@ -28,5 +28,9 @@ const postSchema = new Schema({
     }
 })
 
+postSchema.path('text').validate(text => {
+    const textRegex = /^(\w|-|!|@|#|\$|%|\^|&|\*|\(|\))((\w|-|!|@|#|\$|%|\^|&|\*|\(|\)|\s){2,279})$/;
+    return textRegex.test(text);
+}, 'post.text is not valid');
 
 module.exports = mongoose.model('posts', postSchema);
